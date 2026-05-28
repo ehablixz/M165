@@ -9,7 +9,7 @@
 
 ### MongoDB Instanzen - Bestehende Datenbanken
 
-![MongoDB Compass - Bestehende Datenbanken](image.png)
+![MongoDB Compass - Bestehende Datenbanken](img/image.png)
 
 ---
 
@@ -76,7 +76,7 @@ security:
 **Warum notwendig:**
 Ohne Authentifizierung könnte **jeder** auf die Datenbank zugreifen (kritisches Sicherheitsrisiko)
 
-![MongoDB Konfigurationsdatei - Bearbeitete Werte](image-1.png)
+![MongoDB Konfigurationsdatei - Bearbeitete Werte](img/image-1.png)
 
 ---
 
@@ -86,13 +86,13 @@ Ohne Authentifizierung könnte **jeder** auf die Datenbank zugreifen (kritisches
 
 Beispielstruktur mit verschiedenen Datentypen:
 
-![MongoDB Compass - Neues Dokument (JSON-Editor)](image-2.png)
+![MongoDB Compass - Neues Dokument (JSON-Editor)](img/image-2.png)
 
-![MongoDB Compass - Neues Dokument (Listenansicht)](image-3.png)
+![MongoDB Compass - Neues Dokument (Listenansicht)](img/image-3.png)
 
 ### Nach dem Einfügen
 
-![MongoDB Compass - Datenbank, Collection und Dokument sichtbar](image-4.png)
+![MongoDB Compass - Datenbank, Collection und Dokument sichtbar](img/image-4.png)
 
 ### Exportierte Daten
 
@@ -138,7 +138,7 @@ Beispielstruktur mit verschiedenen Datentypen:
 7. test;
 ```
 
-![MongoDB Compass - Shell mit Befehlen](image-5.png)
+![MongoDB Compass - Shell mit Befehlen](img/image-5.png)
 
 ---
 
@@ -149,7 +149,7 @@ Verbindung zum Server:
 sudo mongosh --authenticationDatabase "admin" -u "uname" -p "password"
 ```
 
-![MongoDB Shell - Befehle auf dem Server](image-6.png)
+![MongoDB Shell - Befehle auf dem Server](img/image-6.png)
 
 #### Erklärung der Shell-Befehle
 
@@ -189,7 +189,7 @@ sudo mongosh --authenticationDatabase "admin" -u "uname" -p "password"
 
 Versuch mit `authSource=zuberi` statt `admin`:
 
-![MongoDB Compass - Fehler bei falscher authSource](image-7.png)
+![MongoDB Compass - Fehler bei falscher authSource](img/image-7.png)
 
 ---
 
@@ -239,11 +239,11 @@ mongodb://read:ReadOnly@13.219.159.150:27017/?authSource=zuberi
 sudo mongosh --authenticationDatabase "zuberi" -u "read" -p "ReadOnly"
 ```
 
-![MongoDB Compass - Benutzer "read" erfolgreich angemeldet](image-8.png)
+![MongoDB Compass - Benutzer "read" erfolgreich angemeldet](img/image-8.png)
 
 **Daten lesen:** Erfolgreich
 
-![MongoDB - Benutzer "read" kann lesen](image-10.png)
+![MongoDB - Benutzer "read" kann lesen](img/image-10.png)
 
 **Daten schreiben:** Fehler (wie erwartet)
 
@@ -261,10 +261,10 @@ mongodb://write:ReadWrite@13.219.159.150:27017/?authSource=admin
 sudo mongosh --authenticationDatabase "admin" -u "write" -p "ReadWrite"
 ```
 
-![MongoDB Compass - Benutzer "write" erfolgreich angemeldet](image-9.png)
+![MongoDB Compass - Benutzer "write" erfolgreich angemeldet](img/image-9.png)
 
 **Daten lesen:** Erfolgreich
 
 **Daten schreiben:** Erfolgreich
 
-![MongoDB - Benutzer "write" kann lesen und schreiben](image-11.png)
+![MongoDB - Benutzer "write" kann lesen und schreiben](img/image-11.png)
