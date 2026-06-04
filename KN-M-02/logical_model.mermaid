@@ -1,173 +1,39 @@
-<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
-  <root>
-    <mxCell id="0" />
-    <mxCell id="1" parent="0" />
+erDiagram
+    freelancer {
+        ObjectId _id PK
+        string name
+        string email
+        float stundensatz
+        date registrierungsdatum
+        float bewertung
+        array faehigkeiten
+        ObjectId freelancer_ids FK
+    }
+    faehigkeit_eingebettet {
+        string bezeichnung
+        string kategorie
+        string erfahrungsstufe
+        float nachfrage
+    }
+    projekte {
+        ObjectId _id PK
+        string titel
+        date startdatum
+        date enddatum
+        float budget
+        string status
+        ObjectId kunde_id FK
+        ObjectId freelancer_ids FK
+    }
+    kunden {
+        ObjectId _id PK
+        string firmenname
+        string kontaktperson
+        string email
+        string branche
+        string land
+    }
 
-    <!-- ===== LEGENDE ===== -->
-    <mxCell id="leg1" value="Legende" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
-      <mxGeometry x="900" y="120" width="200" height="100" as="geometry" />
-    </mxCell>
-    <mxCell id="leg2" value="Collection" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="leg1">
-      <mxGeometry x="10" y="30" width="100" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="leg3" value="Eingebettet" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="leg1">
-      <mxGeometry x="10" y="58" width="100" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="leg4" value="---> Referenz" style="text;fontSize=11;fontColor=#FF8000;" vertex="1" parent="leg1">
-      <mxGeometry x="10" y="80" width="180" height="18" as="geometry" />
-    </mxCell>
-
-    <!-- ===== COLLECTION: freelancer ===== -->
-    <mxCell id="100" value="Collection: freelancer" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
-      <mxGeometry x="60" y="120" width="290" height="352" as="geometry" />
-    </mxCell>
-    <mxCell id="101" value="_id: ObjectId" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="100">
-      <mxGeometry y="30" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="102" value="name: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="100">
-      <mxGeometry y="54" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="103" value="email: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="100">
-      <mxGeometry y="78" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="104" value="stundensatz: float" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="100">
-      <mxGeometry y="102" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="105" value="registrierungsdatum: date" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="100">
-      <mxGeometry y="126" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="106" value="bewertung: float" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="100">
-      <mxGeometry y="150" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="107" value="faehigkeit_ids: [ObjectId]  &lt;-- Referenz" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;fontColor=#FF8000;" vertex="1" parent="100">
-      <mxGeometry y="174" width="290" height="24" as="geometry" />
-    </mxCell>
-
-    <!-- Embedded: kontakt in freelancer -->
-    <mxCell id="110" value="kontakt: { }  [eingebettet]" style="swimlane;fontStyle=1;align=left;startSize=28;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;spacingLeft=6;" vertex="1" parent="100">
-      <mxGeometry x="10" y="208" width="270" height="132" as="geometry" />
-    </mxCell>
-    <mxCell id="111" value="telefon: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="110">
-      <mxGeometry y="28" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="112" value="website: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="110">
-      <mxGeometry y="52" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="113" value="linkedin: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="110">
-      <mxGeometry y="76" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="114" value="wohnort: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="110">
-      <mxGeometry y="100" width="270" height="24" as="geometry" />
-    </mxCell>
-
-    <!-- ===== COLLECTION: projekte ===== -->
-    <mxCell id="200" value="Collection: projekte" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
-      <mxGeometry x="520" y="120" width="290" height="424" as="geometry" />
-    </mxCell>
-    <mxCell id="201" value="_id: ObjectId" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="200">
-      <mxGeometry y="30" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="202" value="titel: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="200">
-      <mxGeometry y="54" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="203" value="startdatum: date" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="200">
-      <mxGeometry y="78" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="204" value="enddatum: date" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="200">
-      <mxGeometry y="102" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="205" value="budget: float" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="200">
-      <mxGeometry y="126" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="206" value="status: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="200">
-      <mxGeometry y="150" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="207" value="kunde_id: ObjectId  &lt;-- Referenz" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;fontColor=#FF8000;" vertex="1" parent="200">
-      <mxGeometry y="174" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="208" value="freelancer_ids: [ObjectId]  &lt;-- Referenz" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;fontColor=#FF8000;" vertex="1" parent="200">
-      <mxGeometry y="198" width="290" height="24" as="geometry" />
-    </mxCell>
-
-    <!-- Embedded: meilensteine in projekte -->
-    <mxCell id="210" value="meilensteine: [ ]  [eingebettet]" style="swimlane;fontStyle=1;align=left;startSize=28;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;spacingLeft=6;" vertex="1" parent="200">
-      <mxGeometry x="10" y="232" width="270" height="180" as="geometry" />
-    </mxCell>
-    <mxCell id="211" value="bezeichnung: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="210">
-      <mxGeometry y="28" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="212" value="faelligkeitsdatum: date" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="210">
-      <mxGeometry y="52" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="213" value="betrag: float" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="210">
-      <mxGeometry y="76" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="214" value="abgeschlossen: int" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="210">
-      <mxGeometry y="100" width="270" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="215" value="kommentar: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="210">
-      <mxGeometry y="124" width="270" height="24" as="geometry" />
-    </mxCell>
-
-    <!-- ===== COLLECTION: kunden ===== -->
-    <mxCell id="300" value="Collection: kunden" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
-      <mxGeometry x="520" y="610" width="290" height="186" as="geometry" />
-    </mxCell>
-    <mxCell id="301" value="_id: ObjectId" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="300">
-      <mxGeometry y="30" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="302" value="firmenname: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="300">
-      <mxGeometry y="54" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="303" value="kontaktperson: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="300">
-      <mxGeometry y="78" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="304" value="email: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="300">
-      <mxGeometry y="102" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="305" value="branche: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="300">
-      <mxGeometry y="126" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="306" value="land: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="300">
-      <mxGeometry y="150" width="290" height="24" as="geometry" />
-    </mxCell>
-
-    <!-- ===== COLLECTION: faehigkeiten ===== -->
-    <mxCell id="400" value="Collection: faehigkeiten" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
-      <mxGeometry x="60" y="540" width="290" height="162" as="geometry" />
-    </mxCell>
-    <mxCell id="401" value="_id: ObjectId" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="400">
-      <mxGeometry y="30" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="402" value="bezeichnung: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="400">
-      <mxGeometry y="54" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="403" value="kategorie: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="400">
-      <mxGeometry y="78" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="404" value="erfahrungsstufe: string" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="400">
-      <mxGeometry y="102" width="290" height="24" as="geometry" />
-    </mxCell>
-    <mxCell id="405" value="nachfrage: float" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=8;overflow=hidden;fontSize=12;" vertex="1" parent="400">
-      <mxGeometry y="126" width="290" height="24" as="geometry" />
-    </mxCell>
-
-    <!-- ===== REFERENZ-PFEILE ===== -->
-
-    <!-- freelancer.faehigkeit_ids --> faehigkeiten -->
-    <mxCell id="r1" value="faehigkeit_ids" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=11;fontStyle=2;" edge="1" source="100" target="400" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-
-    <!-- projekte.freelancer_ids --> freelancer -->
-    <mxCell id="r2" value="freelancer_ids" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=11;fontStyle=2;" edge="1" source="200" target="100" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-
-    <!-- projekte.kunde_id --> kunden -->
-    <mxCell id="r3" value="kunde_id" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=11;fontStyle=2;" edge="1" source="200" target="300" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-
-  </root>
-</mxGraphModel>
+    freelancer ||--|{ FAEHIGKEIT_eingebettet : "eingebettet (keine eigene Collection)"
+    projekte }|--|{ freelancer : "referenz"
+    projekte }|--|| kunden : "referenz"

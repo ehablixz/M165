@@ -80,6 +80,7 @@ Die zentrale **N:N-Beziehung** ist jene zwischen Freelancer und Projekt: Ein Fre
 ## B) Logisches Modell für MongoDB (60%)
 
 ### Diagramm
+
 ```mermaid
 erDiagram
     freelancer {
@@ -89,13 +90,14 @@ erDiagram
         float stundensatz
         date registrierungsdatum
         float bewertung
-        ObjectId faehigkeit_ids FK
+        array faehigkeiten
+        ObjectId freelancer_ids FK
     }
-    kontakt {
-        string telefon
-        string website
-        string linkedin
-        string wohnort
+    faehigkeit_eingebettet {
+        string bezeichnung
+        string kategorie
+        string erfahrungsstufe
+        float nachfrage
     }
     projekte {
         ObjectId _id PK
@@ -107,13 +109,6 @@ erDiagram
         ObjectId kunde_id FK
         ObjectId freelancer_ids FK
     }
-    meilensteine {
-        string bezeichnung
-        date faelligkeitsdatum
-        float betrag
-        int abgeschlossen
-        string kommentar
-    }
     kunden {
         ObjectId _id PK
         string firmenname
@@ -122,26 +117,17 @@ erDiagram
         string branche
         string land
     }
-    faehigkeiten {
-        ObjectId _id PK
-        string bezeichnung
-        string kategorie
-        string erfahrungsstufe
-        float nachfrage
-    }
 
-    freelancer ||--|| kontakt : "eingebettet"
-    freelancer }|--|{ faehigkeiten : "referenz"
-    projekte ||--|{ meilensteine : "eingebettet"
+    freelancer ||--|{ FAEHIGKEIT_eingebettet : "eingebettet (keine eigene Collection)"
     projekte }|--|{ freelancer : "referenz"
     projekte }|--|| kunden : "referenz"
-
 ```
-[Logisches Datenmodell](logical_model.mermaid)
 
 ---
 
 ### Collections und Felder
+
+**Konzeptionell → Logisch:** Die Entität `FAEHIGKEIT` wird nicht zu einer eigenen Collection. Sie wird als eingebettetes Array direkt im `freelancer`-Dokument gespeichert. Dadurch reduziert sich die Anzahl Collections von 4 auf 3.
 
 #### Collection: `freelancer`
 
@@ -153,12 +139,11 @@ erDiagram
 | `stundensatz` | float | Stundenlohn in CHF |
 | `registrierungsdatum` | date | Datum der Registrierung auf der Plattform |
 | `bewertung` | float | Durchschnittliche Kundenbewertung (1–5) |
-| `faehigkeit_ids` | [ObjectId] | Referenz-Array auf `faehigkeiten`-Collection |
-| `kontakt` | **object** | **Eingebettetes Sub-Dokument** |
-| `kontakt.telefon` | string | Telefonnummer |
-| `kontakt.website` | string | Persönliche Website |
-| `kontakt.linkedin` | string | LinkedIn-Profil-URL |
-| `kontakt.wohnort` | string | Wohnort des Freelancers |
+| `faehigkeiten` | **[object]** | **Eingebettetes Array** (war Entität FAEHIGKEIT) |
+| `faehigkeiten[].bezeichnung` | string | Name der Fähigkeit (z.B. "React") |
+| `faehigkeiten[].kategorie` | string | Oberkategorie (z.B. "Webentwicklung") |
+| `faehigkeiten[].erfahrungsstufe` | string | Stufe (z.B. "Senior") |
+| `faehigkeiten[].nachfrage` | float | Marktnachfrage-Score (0–10) |
 
 #### Collection: `projekte`
 
@@ -172,12 +157,6 @@ erDiagram
 | `status` | string | Status (z.B. "laufend", "abgeschlossen") |
 | `kunde_id` | ObjectId | Referenz auf `kunden`-Collection |
 | `freelancer_ids` | [ObjectId] | Referenz-Array auf `freelancer`-Collection |
-| `meilensteine` | **[object]** | **Eingebettetes Array** von Projektmeilensteinen |
-| `meilensteine[].bezeichnung` | string | Name des Meilensteins |
-| `meilensteine[].faelligkeitsdatum` | date | Fälligkeitsdatum |
-| `meilensteine[].betrag` | float | Teilbetrag in CHF |
-| `meilensteine[].abgeschlossen` | int | 0 = offen, 1 = erledigt |
-| `meilensteine[].kommentar` | string | Optionaler Kommentar |
 
 #### Collection: `kunden`
 
@@ -190,48 +169,30 @@ erDiagram
 | `branche` | string | Branche (z.B. "IT", "Marketing") |
 | `land` | string | Herkunftsland |
 
-#### Collection: `faehigkeiten`
-
-| Feld | Datentyp | Beschreibung |
-|------|----------|-------------|
-| `_id` | ObjectId | Primärschlüssel (automatisch) |
-| `bezeichnung` | string | Name der Fähigkeit (z.B. "React") |
-| `kategorie` | string | Oberkategorie (z.B. "Webentwicklung") |
-| `erfahrungsstufe` | string | Stufe (z.B. "Junior", "Senior") |
-| `nachfrage` | float | Marktnachfrage-Score (0–10) |
-
 ---
 
-### Erklärung der Verschachtelungen
+### Erklärung der Verschachtelung
 
-#### Verschachtelung 1: `freelancer.kontakt` (eingebettetes Sub-Dokument)
-
-**Gewählte Variante:** Embedding (Einbettung)
-
-**Begründung:** Kontaktdaten (Telefon, Website, LinkedIn, Wohnort) sind direkt dem Freelancer zugeordnet und werden fast ausschliesslich zusammen mit dem Freelancer-Profil abgerufen. Es gibt keinen Anwendungsfall, bei dem man die Kontaktdaten ohne den zugehörigen Freelancer benötigt. Eine eigene `kontakt`-Collection würde für jede Profilabfrage einen zusätzlichen Datenbank-Roundtrip erzeugen, ohne irgendeinen Vorteil zu bieten.
-
-**Vorteile:** Atomare Lese- und Schreiboperationen, keine zusätzlichen Abfragen, klare Kapselung aller Freelancer-Daten in einem Dokument.
-
----
-
-#### Verschachtelung 2: `projekte.meilensteine` (eingebettetes Array)
+#### `freelancer.faehigkeiten` (eingebettetes Array — aus konzeptioneller Entität FAEHIGKEIT)
 
 **Gewählte Variante:** Embedding als Array
 
-**Begründung:** Meilensteine existieren nur im Kontext eines Projekts — ohne Projekt sind sie bedeutungslos. Die Anzahl Meilensteine pro Projekt ist typischerweise klein und wächst nicht unbeschränkt (meist 3–10 Meilensteine). In der Praxis werden Meilensteine fast immer zusammen mit dem Projekt geladen (z.B. Projektübersicht mit Fortschrittsanzeige). Eine separate `meilensteine`-Collection würde die Komplexität erhöhen, ohne einen inhaltlichen Mehrwert zu bringen.
+**Begründung:** Im konzeptionellen Modell ist `FAEHIGKEIT` eine eigenständige Entität mit einer N:N-Beziehung zu `FREELANCER`. Im logischen MongoDB-Modell wird diese Entität aufgelöst und direkt als Array in das `freelancer`-Dokument eingebettet. Dies ist sinnvoll, weil:
+- Die Fähigkeiten eines Freelancers immer zusammen mit seinem Profil abgerufen werden
+- Die Anzahl Fähigkeiten pro Freelancer begrenzt ist (nicht unbeschränkt wachsend)
+- Kein Anwendungsfall existiert, bei dem Fähigkeiten unabhängig vom Freelancer abgefragt werden müssen
 
-**Vorteile:** Alle Projektinformationen inklusive Fortschritt in einem Dokument, geeignet für atomare Updates (z.B. Meilenstein als abgeschlossen markieren).
+**Ergebnis:** Statt 4 Collections (wie im konzeptionellen Modell) gibt es im logischen Modell nur noch **3 Collections**. Die N:N-Beziehung FREELANCER–FAEHIGKEIT entfällt, da die Daten direkt eingebettet sind.
 
 ---
 
 #### Referenzen (keine Einbettung)
 
-`freelancer.faehigkeit_ids` und `projekte.freelancer_ids` verwenden **Referenzen** statt Einbettung, weil:
-- Freelancer und Fähigkeiten sind **eigenständige Entitäten** mit unabhängigem Lebenszyklus
-- Die N:N-Beziehung würde bei Einbettung zu massiver Datenverdopplung führen
-- Ein Freelancer muss auch unabhängig von einem Projekt abfragbar sein (z.B. bei der Suche nach verfügbaren Freelancern)
+`projekte.freelancer_ids` verwendet eine **Referenz**, weil:
+- Freelancer eigenständige Entitäten mit eigenem Lebenszyklus sind
+- Ein Freelancer an vielen Projekten arbeiten kann (N:N) — Einbettung würde massive Datenverdopplung erzeugen
 
-`projekte.kunde_id` ist eine **Referenz**, weil ein Kunde in vielen Projekten vorkommt und seine Stammdaten zentral geändert werden müssen (Änderung würde sonst alle Projektkopien betreffen).
+`projekte.kunde_id` ist eine **Referenz**, weil ein Kunde mehrere Projekte hat und seine Stammdaten zentral gepflegt werden sollen.
 
 ---
 
@@ -243,39 +204,9 @@ erDiagram
 db.createCollection("freelancer");
 db.createCollection("projekte");
 db.createCollection("kunden");
-db.createCollection("faehigkeiten");
 ```
 
 [create_collections.js](create_collections.js)
-
----
-
-### Anleitung (copy-paste in mongosh)
-
-**Schritt 1:** Mit der MongoDB-Instanz verbinden (Connection String aus KN-M-01):
-```
-mongodb://admin:VerySecurePassword@13.219.159.150:27017/?authSource=admin
-```
-
-**Schritt 2:** Datenbank wechseln — diesen Befehl **separat** ausführen:
-```javascript
-use projektverwaltung;
-```
-
-**Schritt 3:** Collections erstellen — diese Befehle nacheinander ausführen:
-```javascript
-db.createCollection("freelancer");
-db.createCollection("projekte");
-db.createCollection("kunden");
-db.createCollection("faehigkeiten");
-```
-
-**Schritt 4:** Überprüfen:
-```javascript
-show collections;
-```
-
-**Schritt 5:** Screenshot von der Ausgabe machen und als `img/screenshot_collections.png` speichern.
 
 ---
 

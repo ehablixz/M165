@@ -1,87 +1,33 @@
-<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
-  <root>
-    <mxCell id="0" />
-    <mxCell id="1" parent="0" />
+erDiagram
+    FREELANCER {
+        string name
+        string email
+        float stundensatz
+        date registrierungsdatum
+        float bewertung
+    }
+    PROJEKT {
+        string titel
+        date startdatum
+        date enddatum
+        float budget
+        string status
+    }
+    KUNDE {
+        string firmenname
+        string kontaktperson
+        string email
+        string branche
+        string land
+    }
+    FAEHIGKEIT {
+        string bezeichnung
+        string kategorie
+        string erfahrungsstufe
+        float nachfrage
+    }
 
-    <!-- ===== ENTITAETEN ===== -->
-
-    <mxCell id="e1" value="Freelancer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;arcSize=10;" vertex="1" parent="1">
-      <mxGeometry x="120" y="340" width="180" height="70" as="geometry" />
-    </mxCell>
-
-    <mxCell id="e2" value="Projekt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;fontStyle=1;arcSize=10;" vertex="1" parent="1">
-      <mxGeometry x="620" y="340" width="180" height="70" as="geometry" />
-    </mxCell>
-
-    <mxCell id="e3" value="Kunde" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;fontStyle=1;arcSize=10;" vertex="1" parent="1">
-      <mxGeometry x="620" y="600" width="180" height="70" as="geometry" />
-    </mxCell>
-
-    <mxCell id="e4" value="F&#228;higkeit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=1;arcSize=10;" vertex="1" parent="1">
-      <mxGeometry x="120" y="600" width="180" height="70" as="geometry" />
-    </mxCell>
-
-    <!-- ===== BEZIEHUNGEN ===== -->
-
-    <!-- Freelancer N:N Projekt -->
-    <mxCell id="r1" value="arbeitet an" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;fontStyle=2;" edge="1" source="e1" target="e2" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-    <mxCell id="r1s" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r1">
-      <mxGeometry x="-0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-    <mxCell id="r1e" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r1">
-      <mxGeometry x="0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-
-    <!-- Freelancer N:N Faehigkeit -->
-    <mxCell id="r2" value="besitzt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;fontStyle=2;" edge="1" source="e1" target="e4" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-    <mxCell id="r2s" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r2">
-      <mxGeometry x="-0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-    <mxCell id="r2e" value="M" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r2">
-      <mxGeometry x="0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-
-    <!-- Kunde 1:N Projekt -->
-    <mxCell id="r3" value="beauftragt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;fontStyle=2;" edge="1" source="e3" target="e2" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-    <mxCell id="r3s" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r3">
-      <mxGeometry x="-0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-    <mxCell id="r3e" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r3">
-      <mxGeometry x="0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-
-    <!-- Projekt N:N Faehigkeit -->
-    <mxCell id="r4" value="erfordert" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=12;fontStyle=2;" edge="1" source="e2" target="e4" parent="1">
-      <mxGeometry relative="1" as="geometry" />
-    </mxCell>
-    <mxCell id="r4s" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r4">
-      <mxGeometry x="-0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-    <mxCell id="r4e" value="M" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=15;fontStyle=1;" vertex="1" connectable="0" parent="r4">
-      <mxGeometry x="0.85" relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-
-  </root>
-</mxGraphModel>
+    FREELANCER }|--|{ PROJEKT : "arbeitet an"
+    FREELANCER }|--|{ FAEHIGKEIT : "besitzt"
+    KUNDE ||--|{ PROJEKT : "beauftragt"
+    PROJEKT }|--|{ FAEHIGKEIT : "erfordert"
