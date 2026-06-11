@@ -60,5 +60,3 @@
 ![D updateOne projekte](img/D_update_one_projekte.png)
 ![D updateMany freelancer](img/D_update_many_freelancer.png)
 ![D replaceOne kunden](img/D_replace_one_kunden.png)
-
----
