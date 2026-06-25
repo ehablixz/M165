@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS projekte_by_freelancer (
     enddatum        DATE,
     budget          DOUBLE,
     status          TEXT,
-    kunde_id        UUID,
+    kunden_name     TEXT,
     PRIMARY KEY ((freelancer_id), startdatum, projekt_id)
 ) WITH CLUSTERING ORDER BY (startdatum DESC, projekt_id ASC);
 

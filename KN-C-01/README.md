@@ -69,7 +69,7 @@ In Cassandra gibt es keine JOINs. Stattdessen wird **pro Abfrage eine eigene Tab
 | enddatum | DATE | |
 | budget | DOUBLE | |
 | status | TEXT | |
-| kunde_id | UUID | |
+| kunden_name | TEXT | |
 
 **Begründung:** Alle Projekte eines Freelancers landen in einer Partition. `startdatum DESC` sortiert die neusten Projekte oben. `projekt_id` stellt Eindeutigkeit sicher, falls zwei Projekte am gleichen Tag starten.
 
