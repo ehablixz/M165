@@ -1,0 +1,51 @@
+-- KN-C-02 B) Daten abfragen
+-- Die Abfragen entsprechen den 4 Screens aus KN-C-01.
+-- Voraussetzung: A_insert.txt wurde ausgeführt.
+
+USE projektverwaltung;
+
+-- ─── Screen 1: Freelancer-Profil ─────────────────────────────────────────────
+-- Alle Details eines bestimmten Freelancers anzeigen.
+
+SELECT *
+FROM freelancer_by_id
+WHERE freelancer_id = 11111111-1111-1111-1111-111111111111;
+
+-- ─── Screen 2: Meine Projekte (Freelancer-Sicht) ─────────────────────────────
+-- Alle Projekte von Ajan Zuberi, neueste zuerst.
+
+SELECT *
+FROM projekte_by_freelancer
+WHERE freelancer_id = 11111111-1111-1111-1111-111111111111;
+
+-- Alle Projekte von Diego Vignuda, neueste zuerst.
+
+SELECT *
+FROM projekte_by_freelancer
+WHERE freelancer_id = 22222222-2222-2222-2222-222222222222;
+
+-- ─── Screen 3: Top-Freelancer einer Kategorie ────────────────────────────────
+-- Beste Freelancer in der Kategorie "Webentwicklung" (sortiert nach Bewertung DESC).
+
+SELECT *
+FROM freelancer_by_kategorie
+WHERE kategorie = 'Webentwicklung';
+
+-- Beste Freelancer in der Kategorie "Data Science".
+
+SELECT *
+FROM freelancer_by_kategorie
+WHERE kategorie = 'Data Science';
+
+-- ─── Screen 4: Freelancer nach Fähigkeit ─────────────────────────────────────
+-- Alle Freelancer mit der Fähigkeit "React" finden.
+
+SELECT *
+FROM freelancer_by_faehigkeit
+WHERE faehigkeit = 'React';
+
+-- Alle Freelancer mit der Fähigkeit "Python" finden.
+
+SELECT *
+FROM freelancer_by_faehigkeit
+WHERE faehigkeit = 'Python';

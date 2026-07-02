@@ -1,0 +1,29 @@
+-- KN-C-02 C) Daten löschen – Skript 1: Einzelne Zeilen und Spalten löschen
+-- Voraussetzung: A_insert.txt wurde ausgeführt.
+
+USE projektverwaltung;
+
+-- ─── Zeile löschen (Partition Key + Cluster Keys) ────────────────────────────
+-- Löscht das Projekt "SEO-Optimierung Website" aus der Projektliste von Marc Dubois.
+-- Alle Teile des Primary Key müssen angegeben werden.
+
+DELETE FROM projekte_by_freelancer
+WHERE freelancer_id = 44444444-4444-4444-4444-444444444444
+  AND startdatum    = '2024-06-15'
+  AND projekt_id    = 00000000-0000-0000-0000-000000000005;
+
+-- ─── Spalte löschen (einzelnes Feld einer Zeile entfernen) ───────────────────
+-- Löscht nur das Feld "stundensatz" von Marc Dubois in der Kategorie "Marketing".
+-- Der Rest des Datensatzes bleibt erhalten.
+
+DELETE stundensatz
+FROM freelancer_by_kategorie
+WHERE kategorie   = 'Marketing'
+  AND bewertung   = 3.9
+  AND freelancer_id = 44444444-4444-4444-4444-444444444444;
+
+-- Zur Kontrolle: Datensatz anzeigen (stundensatz sollte nun null sein)
+
+SELECT *
+FROM freelancer_by_kategorie
+WHERE kategorie = 'Marketing';

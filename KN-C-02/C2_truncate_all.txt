@@ -1,0 +1,10 @@
+-- KN-C-02 C) Daten löschen – Skript 2: Alle Daten löschen (Aufräumen)
+-- TRUNCATE löscht alle Zeilen einer Tabelle, behält aber die Tabellenstruktur.
+-- Danach kann A_insert.txt erneut ausgeführt werden.
+
+USE projektverwaltung;
+
+TRUNCATE freelancer_by_id;
+TRUNCATE projekte_by_freelancer;
+TRUNCATE freelancer_by_kategorie;
+TRUNCATE freelancer_by_faehigkeit;

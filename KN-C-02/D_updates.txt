@@ -1,0 +1,58 @@
+-- KN-C-02 D) Daten verändern
+-- Voraussetzung: C2_truncate_all.txt und dann A_insert.txt ausgeführt.
+-- UPDATE in Cassandra benötigt immer den vollständigen Primary Key im WHERE.
+
+USE projektverwaltung;
+
+-- ─── Szenario 1 ──────────────────────────────────────────────────────────────
+-- Ein Freelancer hat ein Projekt erfolgreich abgeschlossen und erhält eine
+-- bessere Bewertung sowie eine Erhöhung des Stundensatzes.
+-- Betrifft: freelancer_by_id (Primary Key = freelancer_id)
+
+UPDATE freelancer_by_id
+SET
+    bewertung   = 4.95,
+    stundensatz = 105.0
+WHERE freelancer_id = 11111111-1111-1111-1111-111111111111;
+
+-- ─── Szenario 2 ──────────────────────────────────────────────────────────────
+-- Das Projekt "KI-Datenanalyse Plattform" wurde früher als geplant abgeschlossen.
+-- Status und Enddatum müssen in allen betroffenen Partitionen aktualisiert werden.
+-- Cassandra synchronisiert nicht automatisch zwischen Tabellen — jede Zeile,
+-- in der dieses Projekt vorkommt, muss einzeln aktualisiert werden.
+-- Betrifft: projekte_by_freelancer für Ajan Zuberi und Anna Schreiber.
+
+UPDATE projekte_by_freelancer
+SET
+    status   = 'abgeschlossen',
+    enddatum = '2024-11-15'
+WHERE freelancer_id = 11111111-1111-1111-1111-111111111111
+  AND startdatum    = '2024-03-01'
+  AND projekt_id    = 00000000-0000-0000-0000-000000000002;
+
+UPDATE projekte_by_freelancer
+SET
+    status   = 'abgeschlossen',
+    enddatum = '2024-11-15'
+WHERE freelancer_id = 33333333-3333-3333-3333-333333333333
+  AND startdatum    = '2024-03-01'
+  AND projekt_id    = 00000000-0000-0000-0000-000000000002;
+
+-- ─── Szenario 3 ──────────────────────────────────────────────────────────────
+-- Der Marktpreis für "Data Science" Spezialisten ist gestiegen.
+-- Alle Freelancer in der Kategorie "Data Science" erhalten einen höheren Stundensatz.
+-- Da UPDATE den vollen Primary Key braucht (kategorie + bewertung + freelancer_id),
+-- wird jede betroffene Zeile einzeln aktualisiert.
+-- Betrifft: freelancer_by_kategorie
+
+UPDATE freelancer_by_kategorie
+SET stundensatz = 125.0
+WHERE kategorie   = 'Data Science'
+  AND bewertung   = 4.9
+  AND freelancer_id = 33333333-3333-3333-3333-333333333333;
+
+UPDATE freelancer_by_kategorie
+SET stundensatz = 80.0
+WHERE kategorie   = 'Data Science'
+  AND bewertung   = 3.9
+  AND freelancer_id = 44444444-4444-4444-4444-444444444444;
